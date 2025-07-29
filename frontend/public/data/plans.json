@@ -1,0 +1,18 @@
+[
+  {
+    "id": 101,
+    "name": "MagentaMobil S",
+    "type": "Postpaid",
+    "price": 39.95,
+    "data": "6GB",
+    "features": ["5G", "EU Roaming", "Allnet Flat"]
+  },
+  {
+    "id": 102,
+    "name": "Prepaid Basic",
+    "type": "Prepaid",
+    "price": 19.95,
+    "data": "2GB",
+    "features": ["4G", "EU Roaming"]
+  }
+]

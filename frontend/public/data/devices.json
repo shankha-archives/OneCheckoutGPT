@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "iPhone 15 Pro",
+    "brand": "Apple",
+    "color": "Silver",
+    "storage": "128GB",
+    "price": 1199,
+    "image": "/images/iphone15pro.png",
+    "features": ["5G", "48MP Camera", "ProRAW"]
+  },
+  {
+    "id": 2,
+    "name": "Galaxy S24",
+    "brand": "Samsung",
+    "color": "Black",
+    "storage": "256GB",
+    "price": 899,
+    "image": "/images/galaxys24.png",
+    "features": ["5G", "50MP Camera", "AI Features"]
+  },
+  {
+    "id": 3,
+    "name": "Pixel 8",
+    "brand": "Google",
+    "color": "Obsidian",
+    "storage": "128GB",
+    "price": 799,
+    "image": "/images/pixel8.png",
+    "features": ["5G", "Magic Eraser", "Pure Android"]
+  }
+]
