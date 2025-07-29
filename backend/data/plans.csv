@@ -1,0 +1,13 @@
+id,name,type,price,data,features
+101,MagentaMobil S,Postpaid,39.95,6GB,"5G;EU Roaming;Allnet Flat;24-month contract"
+102,MagentaMobil M,Postpaid,49.95,12GB,"5G;EU Roaming;Allnet Flat;StreamOn Music;24-month contract"
+103,MagentaMobil L,Postpaid,59.95,24GB,"5G;EU Roaming;Allnet Flat;StreamOn Music & Video;24-month contract"
+104,MagentaMobil XL,Postpaid,84.95,Unlimited,"5G;EU Roaming;Allnet Flat;StreamOn All;24-month contract"
+105,Prepaid Basic,Prepaid,9.95,1GB,"4G;EU Roaming;No contract;Pay as you go"
+106,Prepaid Smart,Prepaid,14.95,3GB,"4G;EU Roaming;No contract;4-week auto-renewal"
+107,Prepaid Max,Prepaid,19.95,5GB,"4G;EU Roaming;No contract;4-week auto-renewal"
+108,Young Plan S,Youth,24.95,10GB,"5G;EU Roaming;Allnet Flat;Under-28;12-month contract"
+109,Young Plan M,Youth,34.95,20GB,"5G;EU Roaming;Allnet Flat;Under-28;12-month contract"
+110,Family Card,Family Add-on,19.95,Shared,"5G;Shares main account data;Additional SIM;24-month contract"
+111,Business Basic,Business,29.95,5GB,"5G;EU Roaming;Allnet Flat;VAT deductible;12-month contract"
+112,Business Premium,Business,49.95,20GB,"5G;EU Roaming;Allnet Flat;Priority Support;12-month contract"

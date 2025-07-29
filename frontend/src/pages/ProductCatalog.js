@@ -1,55 +1,112 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Box, Chip } from '@mui/material';
+import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Box, Chip, CircularProgress, Alert } from '@mui/material';
 import { CartContext } from '../context/CartContext';
 import SmartSearchBar from '../components/SmartSearchBar';
+import ProductCard from '../components/ProductCard';
+import Header from '../components/Header';
 
 const ProductCatalog = () => {
   const { addToCart } = useContext(CartContext);
   const [devices, setDevices] = useState([]);
   const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('/data/devices.json').then(res => res.json()).then(setDevices);
-    fetch('/data/plans.json').then(res => res.json()).then(setPlans);
+    const fetchData = async () => {
+      try {
+        // Try to fetch data from backend first
+        const [devicesResponse, plansResponse] = await Promise.all([
+          fetch('http://localhost:8000/api/devices'),
+          fetch('http://localhost:8000/api/plans')
+        ]);
+
+        if (!devicesResponse.ok || !plansResponse.ok) {
+          throw new Error("API error");
+        }
+
+        const devicesData = await devicesResponse.json();
+        const plansData = await plansResponse.json();
+
+        // Process features to convert from string to array if needed
+        const processedDevices = devicesData.map(device => ({
+          ...device,
+          features: Array.isArray(device.features) 
+            ? device.features 
+            : typeof device.features === 'string' 
+              ? device.features.split(';') 
+              : []
+        }));
+
+        const processedPlans = plansData.map(plan => ({
+          ...plan,
+          features: Array.isArray(plan.features) 
+            ? plan.features 
+            : typeof plan.features === 'string' 
+              ? plan.features.split(';') 
+              : []
+        }));
+
+        setDevices(processedDevices);
+        setPlans(processedPlans);
+      } catch (err) {
+        console.error("Error fetching data from API:", err);
+        setError("Failed to load products. Using fallback data.");
+        
+        // Fall back to local data
+        try {
+          const [devicesData, plansData] = await Promise.all([
+            fetch('/data/devices.json').then(res => res.json()),
+            fetch('/data/plans.json').then(res => res.json())
+          ]);
+          
+          setDevices(devicesData);
+          setPlans(plansData);
+        } catch (fallbackErr) {
+          console.error("Error loading fallback data:", fallbackErr);
+          setError("Failed to load products. Please refresh the page.");
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
+  if (loading) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
-    <Container maxWidth="xl" sx={{ py: 4 }}>
-      <SmartSearchBar devices={devices} plans={plans} />
-      <Typography variant="h2" sx={{ mb: 2, fontWeight: 700, color: 'primary.main', textAlign: 'center' }}>
-        Best Smartphone Deals
-      </Typography>
-      <Grid container spacing={3} justifyContent="center">
-        {devices.map((product) => (
-          <Grid item xs={12} sm={6} md={4} key={product.id}>
-            <Card sx={{ borderRadius: 3, boxShadow: 3, position: 'relative' }}>
-              <CardMedia
-                component="img"
-                height="240"
-                image={product.image}
-                alt={product.name}
-                sx={{ objectFit: 'contain', bgcolor: '#f8f8f8' }}
-                onError={e => { e.target.onerror = null; e.target.src = "/images/no-image.png"; }}
-              />
-              <CardContent>
-                <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>{product.name}</Typography>
-                <Box sx={{ mb: 2 }}>
-                  {product.features.map((feature, idx) => (
-                    <Chip key={idx} label={feature} size="small" variant="outlined" sx={{ mr: 0.5, mb: 0.5, fontSize: '0.75rem' }} />
-                  ))}
-                </Box>
-                <Typography variant="h5" sx={{ fontWeight: 700, color: 'primary.main' }}>
-                  €{product.price}
-                </Typography>
-                <Button fullWidth variant="contained" sx={{ mt: 2, borderRadius: 2, py: 1.5, fontWeight: 600 }} onClick={() => addToCart(product)}>
-                  Add to Cart
-                </Button>
-              </CardContent>
-            </Card>
+    <>
+      <Header />
+      <Container maxWidth="xl">
+        {error && <Alert severity="warning" sx={{ mt: 2 }}>{error}</Alert>}
+        <SmartSearchBar devices={devices} plans={plans} />
+        
+        <Box sx={{ mb: 8 }}>
+          <Typography variant="h4" component="h1" gutterBottom sx={{ mt: 6, mb: 4, fontWeight: 'bold' }}>
+            Featured Devices
+          </Typography>
+          <Grid container spacing={4}>
+            {devices.map((device) => (
+              <Grid item xs={12} sm={6} md={4} key={device.id}>
+                <ProductCard 
+                  device={device} 
+                  defaultPlan={plans[0]} 
+                  allPlans={plans} 
+                />
+              </Grid>
+            ))}
           </Grid>
-        ))}
-      </Grid>
-    </Container>
+        </Box>
+      </Container>
+    </>
   );
 };
 
