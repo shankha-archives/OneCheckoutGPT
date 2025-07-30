@@ -15,6 +15,22 @@ const SmartSearchBar = ({ devices, plans }) => {
   const [info, setInfo] = useState(null);
   const [sessionId, setSessionId] = useState(null);
   const [chatHistory, setChatHistory] = useState([]);
+  const exampleQueries = [
+  "Foldable phones",
+  "Unlimited data under €20",
+  "Best iPhone for camera",
+  "Android phones with 5G",
+  "Cheapest prepaid plan",
+  "Phones with long battery life"
+];
+const [exampleIndex, setExampleIndex] = useState(0);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setExampleIndex((prev) => (prev + 1) % exampleQueries.length);
+  }, 3000);
+  return () => clearInterval(interval);
+}, []);
   const ref = useRef(null);
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -275,65 +291,75 @@ const SmartSearchBar = ({ devices, plans }) => {
         }}
       >
         {/* Initial Search Bar - only shown when not expanded */}
-        {!expanded && (
-          <Paper
+       {!expanded && (
+  <>
+    <Paper
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        px: 4,
+        py: 1,
+        borderRadius: 1,
+        boxShadow: 4,
+        bgcolor: 'background.paper',
+        width: '100%',
+        minHeight: 20,
+        border: '2px solid #ccc'
+           }}
+      onClick={() => setExpanded(true)}
+    >
+      {/* <Search sx={{ color: 'primary.main', mr: 2, fontSize: 32 }} /> */}
+      <TextField
+        variant="standard"
+        placeholder="Find your ideal phone or plan (e.g. 'Gaming phone', 'Plans with roaming')"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        InputProps={{
+          disableUnderline: true,
+          style: { fontSize: 16, width: '100%' }
+        }}
+        sx={{ flex: 1, minWidth: 0 }}
+        onFocus={() => setExpanded(true)}
+        onKeyPress={(e) => {
+          if (e.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
+      />
+      {/* <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
+        {browserSupportsSpeechRecognition && (
+          <IconButton
+            onClick={handleVoiceToggle}
             sx={{
-              display: 'flex',
-              alignItems: 'center',
-              px: 4,
-              py: 3,
-              borderRadius: 4,
-              boxShadow: 4,
-              bgcolor: 'background.paper',
-              width: '100%',
-              minHeight: 80,
+              color: listening ? 'primary.main' : 'grey.600',
+              mr: 1,
+              zIndex: 2,
             }}
-            onClick={() => setExpanded(true)}
+            tabIndex={-1}
           >
-            <Search sx={{ color: 'primary.main', mr: 2, fontSize: 32 }} />
-            <TextField
-              variant="standard"
-              placeholder="Ask anything, e.g. 'Show me Android phones under $500 with 5G'"
-              value={query}
-              onChange={e => setQuery(e.target.value)}
-              InputProps={{
-                disableUnderline: true,
-                style: { fontSize: 24, width: 400 }
-              }}
-              sx={{ flex: 1 }}
-              onFocus={() => setExpanded(true)}
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  handleSubmit();
-                }
-              }}
-            />
-            <Box sx={{ display: 'flex', alignItems: 'center', ml: 2 }}>
-              {browserSupportsSpeechRecognition && (
-                <IconButton
-                  onClick={handleVoiceToggle}
-                  sx={{
-                    color: listening ? 'primary.main' : 'grey.600',
-                    mr: 1,
-                    zIndex: 2,
-                  }}
-                  tabIndex={-1}
-                >
-                  {listening ? <Mic /> : <MicOff />}
-                </IconButton>
-              )}
-            </Box>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleSubmit}
-              disabled={isLoading}
-              sx={{ ml: 3, px: 5, py: 2, fontSize: 20, fontWeight: 600, borderRadius: 2 }}
-            >
-              {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Search'}
-            </Button>
-          </Paper>
+            {listening ? <Mic /> : <MicOff />}
+          </IconButton>
         )}
+      </Box> */}
+      {/* <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSubmit}
+        disabled={isLoading}
+        sx={{ ml: 3, px: 5, py: 2, fontSize: 20, fontWeight: 600, borderRadius: 2 }}
+      >
+        {isLoading ? <CircularProgress size={24} color="inherit" /> : 'Search'}
+      </Button> */}
+    </Paper>
+    {/* Rotating example queries below the search bar */}
+<Box sx={{ mt: 1, textAlign: 'center', width: '100%' }}>
+  <Typography variant="body2" sx={{ color: 'primary.main', fontStyle: 'italic' }}>
+    Try: “{exampleQueries[exampleIndex]}”
+  </Typography>
+</Box>
+  </>
+)}
+        
         
         {/* Expanded Chat Interface */}
         {expanded && (
