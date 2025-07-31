@@ -9,7 +9,7 @@ import {
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-const VoiceAssistant = ({ onAddToCart, devices, plans }) => {
+const VoiceAssistant = ({ onAddToCart }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -19,6 +19,8 @@ const VoiceAssistant = ({ onAddToCart, devices, plans }) => {
   const [audioLevel, setAudioLevel] = useState(0);
   const [currentStage, setCurrentStage] = useState('greeting');
   const [error, setError] = useState(null);
+  const [devices, setDevices] = useState([]);
+  const [plans, setPlans] = useState([]);
   
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
@@ -26,6 +28,7 @@ const VoiceAssistant = ({ onAddToCart, devices, plans }) => {
   const synthRef = useRef(null);
   const analyzerRef = useRef(null);
   const navigate = useNavigate();
+  const { addToCart } = useContext(CartContext);
 
   // Initialize speech synthesis
   useEffect(() => {
