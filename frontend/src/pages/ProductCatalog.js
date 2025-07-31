@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Box, Chip, CircularProgress, Alert } from '@mui/material';
+import { Container, Grid, Card, CardMedia, CardContent, Typography, Button, Box, Chip, CircularProgress, Alert, Paper } from '@mui/material';
 import { CartContext } from '../context/CartContext';
-import SmartSearchBar from '../components/SmartSearchBar';
 import ProductCard from '../components/ProductCard';
 import Header from '../components/Header';
+import { Mic, Search, TrendingUp } from '@mui/icons-material';
 
 const ProductCatalog = () => {
   const { addToCart } = useContext(CartContext);
