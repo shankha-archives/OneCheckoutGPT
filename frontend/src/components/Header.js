@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { AppBar, Toolbar, Typography, Badge, IconButton, Box } from '@mui/material';
-import { ShoppingCart } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { AppBar, Toolbar, Typography, Badge, IconButton, Box, Button } from '@mui/material';
+import { ShoppingCart, Phone } from '@mui/icons-material';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 
 const Header = () => {
