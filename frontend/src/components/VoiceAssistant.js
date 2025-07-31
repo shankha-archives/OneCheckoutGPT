@@ -321,8 +321,8 @@ const VoiceAssistant = ({ onAddToCart }) => {
 
   // Add product to cart from voice recommendation
   const handleAddToCartFromVoice = (device, plan) => {
-    if (onAddToCart) {
-      onAddToCart({
+    if (addToCart) {
+      addToCart({
         id: `${device.id}-${plan.id}`,
         device,
         plan,
