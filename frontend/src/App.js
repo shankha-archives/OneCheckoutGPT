@@ -66,7 +66,7 @@ function App() {
               <Route path="/plans" element={<PlansPage />} />
             </Routes>
             
-            {/* Voice Assistant - Available on all pages */}
+            {/* Voice Assistant - Fetches its own data */}
             <VoiceAssistant />
           </Box>
         </Router>
