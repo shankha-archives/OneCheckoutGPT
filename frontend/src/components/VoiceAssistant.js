@@ -36,6 +36,27 @@ const VoiceAssistant = ({ onAddToCart }) => {
     if ('speechSynthesis' in window) {
       synthRef.current = window.speechSynthesis;
     }
+    
+    // Fetch devices and plans data
+    const fetchData = async () => {
+      try {
+        const [devicesResponse, plansResponse] = await Promise.all([
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/api/devices`),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/api/plans`)
+        ]);
+
+        if (devicesResponse.ok && plansResponse.ok) {
+          const devicesData = await devicesResponse.json();
+          const plansData = await plansResponse.json();
+          setDevices(devicesData);
+          setPlans(plansData);
+        }
+      } catch (error) {
+        console.error('Error fetching data for voice assistant:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   // Audio level monitoring for visual feedback
