@@ -15,10 +15,10 @@ const ProductCatalog = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Try to fetch data from backend first
+        // Fetch from the new backend
         const [devicesResponse, plansResponse] = await Promise.all([
-          fetch('http://localhost:8000/api/devices'),
-          fetch('http://localhost:8000/api/plans')
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/api/devices`),
+          fetch(`${process.env.REACT_APP_BACKEND_URL}/api/plans`)
         ]);
 
         if (!devicesResponse.ok || !plansResponse.ok) {
@@ -51,21 +51,7 @@ const ProductCatalog = () => {
         setPlans(processedPlans);
       } catch (err) {
         console.error("Error fetching data from API:", err);
-        setError("Failed to load products. Using fallback data.");
-        
-        // Fall back to local data
-        try {
-          const [devicesData, plansData] = await Promise.all([
-            fetch('/data/devices.json').then(res => res.json()),
-            fetch('/data/plans.json').then(res => res.json())
-          ]);
-          
-          setDevices(devicesData);
-          setPlans(plansData);
-        } catch (fallbackErr) {
-          console.error("Error loading fallback data:", fallbackErr);
-          setError("Failed to load products. Please refresh the page.");
-        }
+        setError("Failed to load products. Please refresh the page.");
       } finally {
         setLoading(false);
       }
