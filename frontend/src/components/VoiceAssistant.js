@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useCallback, useContext } from 'react';
 import { 
   Box, Fab, Dialog, DialogContent, DialogTitle, Typography, Button, 
   CircularProgress, Paper, IconButton, Tooltip, Chip
@@ -8,6 +8,7 @@ import {
   PlayArrow, Stop, Send
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
 const VoiceAssistant = ({ onAddToCart }) => {
   const [isOpen, setIsOpen] = useState(false);
